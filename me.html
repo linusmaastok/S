@@ -30,6 +30,31 @@ body {
             width: 32px;
             height: 32px;
         }
+#crosshair {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        #horizontal-line,
+        #vertical-line {
+            position: absolute;
+            background-color: rgb(0, 255, 47);
+        }
+
+        #horizontal-line {
+            height: 1px;
+            width: 100%;
+        }
+
+        #vertical-line {
+            height: 100%;
+            width: 1px;
+        }
 @font-face {
   font-family:TopazPlus-a1200;
   src: url("topaz.eot");
@@ -117,7 +142,16 @@ pre {
 .w::selection {color:#000000}
 
 .emphasized { font-style: italic; }
-
+.phrase {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 34px;
+            color: rgb(0, 247, 0); /* Cambia el color según tus preferencias */
+            opacity: 0;
+            text-shadow: 0 0 5px green, 0 0 10px green, 0 0 20px green, 0 0 40px green, 0 0 80px green, 0 0 90px green, 0 0 100px green, 0 0 150px green;
+        }
 .body {
   padding:16px 8px 16px 8px;
   animation: textShadow 1.033s infinite;
@@ -268,6 +302,12 @@ a:hover, hr {
     </style>
   </head>
   <body>
+  <body>
+    <div id="crosshair">
+      <div id="horizontal-line"></div>
+      <div id="vertical-line"></div>
+  </div>
+  <div id="phrase" class="phrase"></div>
     <audio id="background-audio" loop>
       <source src="defcon.mp3" type="audio/mpeg">
       Tu navegador no soporta el elemento de audio.
@@ -440,6 +480,44 @@ C:\&gt; start CERTS.exe</font> <font color="ababab" class="blinking">_</font>
   document.addEventListener('DOMContentLoaded', () => {
       getIpAndCountry();
       displayCountryRecords();
+  });
+</script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+      const crosshair = document.getElementById("crosshair");
+      const horizontalLine = document.getElementById("horizontal-line");
+      const verticalLine = document.getElementById("vertical-line");
+
+      document.addEventListener("mousemove", (event) => {
+          const x = event.clientX;
+          const y = event.clientY;
+
+          horizontalLine.style.top = `${y}px`;
+          verticalLine.style.left = `${x}px`;
+      });
+  });
+</script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+      const phraseElement = document.getElementById("phrase");
+      const phrases = ["¡WELLCOME!", "DONT BE SHY...", "...I WAS WAITING ;)"];
+      let index = 0;
+
+      function showNextPhrase() {
+          phraseElement.textContent = phrases[index];
+          phraseElement.style.opacity = "1";
+
+          setTimeout(() => {
+              phraseElement.style.opacity = "0";
+              index++;
+
+              if (index < phrases.length) {
+                  setTimeout(showNextPhrase, 2500);
+              }
+          }, 3000);
+      }
+
+      showNextPhrase();
   });
 </script>
 </body></html>
