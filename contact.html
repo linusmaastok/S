@@ -7,7 +7,7 @@
 	
 	<meta name="description" content="\x00">
 	
-	<!--<link id="favicon" rel="shortcut icon" href="adsadsadsa.png"> -->
+	<link id="favicon" rel="shortcut icon" href="favicon.ico">
 
 
     <style>
@@ -225,6 +225,10 @@ a:hover, hr {
     </style>
   </head>
   <body>
+    <audio id="hover-sound">
+      <source src="c.mp3" type="audio/mpeg">
+      Tu navegador no soporta el elemento de audio.
+    </audio>
 <div class="scanlines"></div>
 <div class="scanline"></div>
 <div class="flicker"></div>
@@ -260,26 +264,35 @@ a:hover, hr {
 
 <pre class="lg"><font color="c0c0c1">1M W4171N6...</font> 
 
-<!--text--> <font color="FFA500">MAIL</font> <a href="mailto:nicolas.e.matus@gmail.com">[NICOLAS.E.MATUS@GMAIL.COM]</a>
-<!--text--> <font color="FFA500">LINKEDIN</font> <a href="https://www.linkedin.com/in/nicolas-esteban-matus/">[NICOLÁS ESTEBAN MATUS P.]</a>
-<!--text--> <font color="FFA500">GOOGLE SCHOLAR</font> <a href="https://scholar.google.com/citations?user=99Z1V5AAAAAJ&hl=es">[NICOLÁS ESTEBAN MATUS]</a>
-<!--text--> <font color="FFA500">RESEARCH GATE</font> <a href="https://www.researchgate.net/profile/Nicolas-Matus-2">[NICOLÁS MATUS]</a>
+<!--text--> <font color="FFA500">MAIL</font> <a class="lg elemento-a-reproducir-sonido" href="mailto:nicolas.e.matus@gmail.com">[NICOLAS.E.MATUS@GMAIL.COM]</a>
+<!--text--> <font color="FFA500">LINKEDIN</font> <a class="lg elemento-a-reproducir-sonido" href="https://www.linkedin.com/in/nicolas-esteban-matus/">[NICOLÁS ESTEBAN MATUS P.]</a>
+<!--text--> <font color="FFA500">GOOGLE SCHOLAR</font> <a class="lg elemento-a-reproducir-sonido" href="https://scholar.google.com/citations?user=99Z1V5AAAAAJ&hl=es">[NICOLÁS ESTEBAN MATUS]</a>
+<!--text--> <font color="FFA500">RESEARCH GATE</font> <a class="lg elemento-a-reproducir-sonido" href="https://www.researchgate.net/profile/Nicolas-Matus-2">[NICOLÁS MATUS]</a>
 <!--text--> <font color="FFA500">PHONE</font> +569 7917 4468
 
 </pre>
 
 
  
-<pre><font style="font-size: calc(min(25px, 3.5vw)); line-height: calc(min(25px, 3.8vw));"><a href="me.html">M3</a> | <a href="contact.html">C0N74C7</a></font>
+<pre><font style="font-size: calc(min(25px, 3.5vw)); line-height: calc(min(25px, 3.8vw));"><img src="s.gif" width="65"><a class="lg elemento-a-reproducir-sonido" href="me.html">M3</a><img src="s.gif" width="65"><a class="lg elemento-a-reproducir-sonido" href="contact.html">C0N74C7</a><img src="s.gif" width="65"></font>
 </pre>
-
-
-
-
-<!-- <pre><font style="font-size: calc(min(25px, 3.5vw)); line-height: calc(min(25px, 3.8vw));">Amiga Topaz ANSI by <a href="https://16colo.rs/tags/artist/anachronist" target="_blank">aNACHRONiST</a> // <a href="https://impure.nl/" target="_blank">iMPURE!ASCII 1940</a></font></pre><font style="font-size: calc(min(25px, 3.5vw)); line-height: calc(min(25px, 3.8vw));"> -->
 
 
 </font></div><font style="font-size: calc(min(25px, 3.5vw)); line-height: calc(min(25px, 3.8vw));">
 
 
-</font></body></html>
+</font>
+<script>
+  const hoverSound = document.getElementById('hover-sound');
+
+  function playHoverSound() {
+    hoverSound.currentTime = 0;
+    hoverSound.play();
+  }
+
+  const elements = document.querySelectorAll('.elemento-a-reproducir-sonido');
+  elements.forEach(element => {
+    element.addEventListener('mouseenter', playHoverSound);
+  });
+</script>
+</body></html>
