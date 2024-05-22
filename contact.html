@@ -273,7 +273,11 @@ a:hover, hr {
 <div class="flicker"></div>
 <div class="body">
 
-  <pre class="lg">  <h1 class="lg">W31C0M3...  </h1> <h1 class="lg blinking" id="user-ip">LOADING...</h1> <h1 class="lg">☺︎</h1><pre class="lg" id="country-list">loading...</pre>
+  <pre class="lg">  <h1 class="lg">W31C0M3...  </h1> <h1 class="lg blinking" id="user-ip">LOADING...</h1> <h1 class="lg">☺︎</h1>
+
+    <h3 class="lg">Salutes to...</h3>
+    <ul id="country-list"></ul>
+	  
   </pre>
 <pre>  <span class="g">¦</span> <span class="w"> |   \ / | |  |  ¯<span class="lg">:</span>  <span class="lg">:</span>¯¯  \/     <span class="lg">¦</span>      |<span class="g">¦</span> | ||<span class="g">ø</span>
   <span class="lg">:</span>  <span class="lg">:</span>¯<span class="lg">:</span> -X- <span class="lg">:</span>¯   <span class="lg">:</span>  X |    /\  <span class="g">-</span> <span class="lg">-</span>*<span class="lg">-</span> <span class="g">-</span>   <span class="lg">†</span>
@@ -366,21 +370,27 @@ a:hover, hr {
           .then(response => response.json())
           .then(data => {
               const ip = data.ip;
-              return fetch(`http://ip-api.com/json/${ip}`);
+              return fetch(`https://ipapi.co/${ip}/json/`);
           })
           .then(response => response.json())
           .then(data => {
-              const country = data.country;
-              const countryCode = data.countryCode.toLowerCase();
+              const country = data.country_name;
+              const countryCode = data.country.toLowerCase();
 
+              // Obtener el registro actual de países desde localStorage
               let countryRecords = localStorage.getItem('countryRecords');
-              countryRecords = countryRecords ? JSON.parse(countryRecords) : [];
+              countryRecords = countryRecords ? JSON.parse(countryRecords) : {};
 
-              if (!countryRecords.some(record => record.country === country)) {
-                  countryRecords.push({ country, countryCode });
-                  localStorage.setItem('countryRecords', JSON.stringify(countryRecords));
+              // Agregar o actualizar el país en el registro
+              if (countryRecords[country]) {
+                  countryRecords[country].count += 1;
+              } else {
+                  countryRecords[country] = { count: 1, countryCode };
               }
 
+              localStorage.setItem('countryRecords', JSON.stringify(countryRecords));
+
+              // Mostrar los países en la página
               displayCountryRecords();
           })
           .catch(error => {
@@ -389,29 +399,32 @@ a:hover, hr {
   }
 
   function displayCountryRecords() {
-      const countryRecords = JSON.parse(localStorage.getItem('countryRecords')) || [];
+      const countryRecords = JSON.parse(localStorage.getItem('countryRecords')) || {};
       const countryList = document.getElementById('country-list');
       countryList.innerHTML = '';
 
-      if (countryRecords.length === 0) {
+      if (Object.keys(countryRecords).length === 0) {
           countryList.innerHTML = '<p>No hay países registrados.</p>';
       } else {
-          countryRecords.forEach(record => {
+          for (const [country, record] of Object.entries(countryRecords)) {
               const li = document.createElement('li');
               const img = document.createElement('img');
-              img.src = `https://flagcdn.com/w40/${record.countryCode}.png`;
-              img.alt = `${record.country}`;
+              img.src = `https://flagcdn.com/w40/${record.countryCode}.png`; // Uso de flagcdn para las banderas
+              img.alt = `Bandera de ${country}`;
               const span = document.createElement('span');
-              span.textContent = record.country;
+              span.textContent = `${country} - ${record.count} visits`;
 
               li.appendChild(img);
+              //li.appendChild(span);
               countryList.appendChild(li);
-          });
+          }
       }
   }
 
+  // Ejecutar las funciones al cargar la página
   document.addEventListener('DOMContentLoaded', () => {
       getIpAndCountry();
+      displayCountryRecords();
   });
 </script>
 
