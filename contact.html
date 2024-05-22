@@ -11,9 +11,9 @@
 
 
     <style>
-body {
+        body {
             cursor: url('cursor.cur'), auto;
-}
+        }
 @font-face {
   font-family:TopazPlus-a1200;
   src: url("topaz.eot");
@@ -116,7 +116,7 @@ pre {
 }
 
 @keyframes flicker { 0% { opacity: 0.119; } 5% { opacity: 0.02841; } 10% { opacity: 0.35748; } 15% { opacity: 0.88852; } 20% { opacity: 0.9408; } 25% { opacity: 0.35088; } 30% { opacity: 0.22426; } 35% { opacity: 0.26418; } 40% { opacity: 0.09249; } 45% { opacity: 0.35312; } 50% { opacity: 0.89436; } 55% { opacity: 0.9574; } 60% { opacity: 0.19754; } 65% { opacity: 0.05086; } 70% { opacity: 0.12137; } 75% { opacity: 0.75791; } 80% { opacity: 0.89617; } 85% { opacity: 0.90183; } 90% { opacity: 0.20657; } 95% { opacity: 0.64125; } 100% { opacity: 0.78042; }}
-/* ASCAN */
+
 @keyframes scanline {
   0% {
     top:99%;
@@ -228,6 +228,10 @@ a:hover, hr {
     </style>
   </head>
   <body>
+    <audio id="background-audio" loop>
+      <source src="defcon.mp3" type="audio/mpeg">
+      Tu navegador no soporta el elemento de audio.
+  </audio>
     <audio id="hover-sound">
       <source src="c.mp3" type="audio/mpeg">
       Tu navegador no soporta el elemento de audio.
@@ -285,6 +289,19 @@ a:hover, hr {
 
 
 </font>
+<script>
+  window.addEventListener('load', function() {
+      const audio = document.getElementById('background-audio');
+      const playPromise = audio.play();
+      
+      if (playPromise !== undefined) {
+          playPromise.then(_ => {
+          }).catch(error => {
+              console.log('Reproducción automática no permitida');
+          });
+      }
+  });
+</script>
 <script>
   const hoverSound = document.getElementById('hover-sound');
 
