@@ -249,6 +249,14 @@ a:hover, hr {
     </style>
   </head>
   <body>
+    <audio id="background-audio" loop>
+      <source src="defcon.mp3" type="audio/mpeg">
+      Tu navegador no soporta el elemento de audio.
+  </audio>
+    <audio id="hover-sound">
+      <source src="c.mp3" type="audio/mpeg">
+      Tu navegador no soporta el elemento de audio.
+    </audio>
 <div class="scanlines"></div>
 <div class="scanline"></div>
 <div class="flicker"></div>
@@ -302,7 +310,6 @@ C:\&gt; start BIO.exe</font> <font color="ababab" class="blinking">_</font>
 <font color="ababab">C:\&gt;<font color="ababab" class="blinking">_</font>
 
 C:\&gt; start CERTS.exe</font> <font color="ababab" class="blinking">_</font>
-<!--<a href="https://www.linkedin.com/in/nicolas-esteban-matus/" target="_blank">[WATCH ME]</a>-->
 ------------------------------.
 |     <font color="FFFFFF">eJPT</font>                          |
 |     <font color="FFFFFF">eWPT</font>                        |
@@ -311,7 +318,7 @@ C:\&gt; start CERTS.exe</font> <font color="ababab" class="blinking">_</font>
 
 </pre>
 
-<pre><font style="font-size: calc(min(25px, 3.5vw)); line-height: calc(min(25px, 3.8vw));"><img src="s.gif" width="65"><a href="me.html">M3</a><img src="s.gif" width="65"><a href="contact.html">C0N74C7</a></font><img src="s.gif" width="65">
+<pre><font style="font-size: calc(min(25px, 3.5vw)); line-height: calc(min(25px, 3.8vw));"><img src="s.gif" width="65"><a class="elemento-a-reproducir-sonido" href="me.html">M3</a><img src="s.gif" width="65"><a class="elemento-a-reproducir-sonido" href="contact.html">C0N74C7</a></font><img src="s.gif" width="65">
 
 
 
@@ -327,4 +334,43 @@ C:\&gt; start CERTS.exe</font> <font color="ababab" class="blinking">_</font>
 
 
 
-</font></body></html>
+</font>
+<script>
+  fetch('https://api.ipify.org?format=json')
+      .then(response => response.json())
+      .then(data => {
+          document.getElementById('user-ip').innerText = data.ip;
+      })
+      .catch(error => {
+          console.error('Error al obtener la IP:', error);
+          document.getElementById('user-ip').innerText = 'No se pudo obtener la IP';
+      });
+</script>
+
+<script>
+  window.addEventListener('load', function() {
+      const audio = document.getElementById('background-audio');
+      const playPromise = audio.play();
+      
+      if (playPromise !== undefined) {
+          playPromise.then(_ => {
+          }).catch(error => {
+              console.log('Reproducción automática no permitida');
+          });
+      }
+  });
+</script>
+<script>
+  const hoverSound = document.getElementById('hover-sound');
+
+  function playHoverSound() {
+    hoverSound.currentTime = 0;
+    hoverSound.play();
+  }
+
+  const elements = document.querySelectorAll('.elemento-a-reproducir-sonido');
+  elements.forEach(element => {
+    element.addEventListener('mouseenter', playHoverSound);
+  });
+</script>  
+</body></html>
