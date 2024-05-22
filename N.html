@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.75">
+    <title>\x00</title>
+	
+	<meta name="description" content="\x00">
+	
+	<link id="favicon" rel="shortcut icon" href="favicon.ico">
+
+
+    <style>
+        body {
+            cursor: url('cursor.cur'), auto;
+        }
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        #splash-screen h1 {
+            color: green;
+            font-size: 3em;
+            text-shadow: 0 0 10px green, 0 0 20px green, 0 0 30px green, 0 0 40px green;
+        }
+        #image-container {
+            position: relative;
+        }
+
+        #image {
+            display: block;
+        }
+
+        #crosshair {
+            position: absolute;
+            pointer-events: none;
+        }
+
+        .vertical, .horizontal {
+            position: absolute;
+            background-color: green;
+            transition: background-color 0.2s;
+        }
+
+        .vertical {
+            width: 2px;
+            height: 100vh;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .horizontal {
+            height: 2px;
+            width: 100vw;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .flash {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.1s ease;
+        }
+
+        .flash.active {
+            opacity: 0.8;
+        }
+        .red-cursor {
+            cursor: url('bk.cur'), crosshair;
+        }
+        #main-content {
+            display: none;
+        }
+@font-face {
+  font-family:TopazPlus-a1200;
+  src: url("topaz.eot");
+}
+
+@font-face {
+  font-family:TopazPlus-a1200;
+  src: url("topaz.ttf") format("truetype");
+}
+
+h1 {
+            display: inline;
+        }
+::-webkit-scrollbar-thumb{
+  width:4px;
+  background-color: #007702;
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: #1d0c0c;
+}
+::-webkit-scrollbar{
+  width: 4px;
+	background-color: #1d0c0c;
+}
+* {
+  scrollbar-color: #007700 #aaaaaa;
+  scrollbar-width: thin;
+}
+html, body {
+  margin: 0;
+  padding:0;
+  background:#0d1d0c;
+  min-height: 100vh;
+}
+body {
+  position:absolute;
+  width: auto;
+  min-width: 100%;
+
+}
+pre {
+  font-family:TopazPlus-a1200;
+  font-size: calc(min(25px, 3.5vw));
+  font-weight:normal;
+  color:#57ffff;
+  line-height: calc(min(25px, 3.5vw));
+  margin:; padding: 0;
+  margin-bottom:16px;
+}
+.g {color:rgb(0, 119, 6)}
+.lg {color:#00b60c}
+.w {color:#00ff00}
+.by {color:#0c1d12}
+
+::-moz-selection {color:000000;background:#b60000}
+.g::-moz-selection, .by::-moz-selection {color:#000000}
+.lg::-moz-selection {color:#000000}
+.w::-moz-selection {color:#000000}
+
+::selection {color:#000000;background:rgb(12, 182, 0)}
+.g::selection, .by::selection {color:#000000}
+.lg::selection {color:#000000}
+.w::selection {color:#000000}
+
+.emphasized { font-style: italic; }
+
+.body {
+  padding:16px 8px 16px 8px;
+  animation: textShadow 1.033s infinite;
+}
+.flicker {
+  pointer-events: none;
+  position: fixed;
+  width: auto;
+  min-width: 100%;
+  height:100%;
+  z-index:15;
+  background: rgba(9, 8, 8, 0.1);
+  animation: flicker 0.3301s infinite;
+}
+.scanline {
+  position:fixed;
+  pointer-events: none;
+  top:0%;
+  width: auto;
+  min-width: 100%;
+  height: 2px;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.3);
+  opacity: 0.75;
+  animation: scanline 7.77s linear infinite;
+}
+.scanlines {
+  position:fixed;
+  pointer-events: none;
+  width: auto;
+  min-width: 100%;
+  height:100%;
+  z-index: 5;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(255, 0, 0, 0.02), rgba(0, 0, 255, 0.06));
+  background-size: 100% 2px, 3px 100%;
+}
+
+@keyframes flicker { 0% { opacity: 0.119; } 5% { opacity: 0.02841; } 10% { opacity: 0.35748; } 15% { opacity: 0.88852; } 20% { opacity: 0.9408; } 25% { opacity: 0.35088; } 30% { opacity: 0.22426; } 35% { opacity: 0.26418; } 40% { opacity: 0.09249; } 45% { opacity: 0.35312; } 50% { opacity: 0.89436; } 55% { opacity: 0.9574; } 60% { opacity: 0.19754; } 65% { opacity: 0.05086; } 70% { opacity: 0.12137; } 75% { opacity: 0.75791; } 80% { opacity: 0.89617; } 85% { opacity: 0.90183; } 90% { opacity: 0.20657; } 95% { opacity: 0.64125; } 100% { opacity: 0.78042; }}
+
+@keyframes scanline {
+  0% {
+    top:99%;
+  }
+}
+@keyframes scanlines {
+  0% {
+    background-position: 0 50%;
+  }
+}
+@keyframes textShadow {
+  0% {
+    text-shadow: 0.4389924193300864px 0 1px rgba(0,30,255,0.5), -0.4389924193300864px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  5% {
+    text-shadow: 2.7928974010788217px 0 1px rgba(0,30,255,0.5), -2.7928974010788217px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  10% {
+    text-shadow: 0.02956275843481219px 0 1px rgba(0,30,255,0.5), -0.02956275843481219px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  15% {
+    text-shadow: 0.40218538552878136px 0 1px rgba(0,30,255,0.5), -0.40218538552878136px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  20% {
+    text-shadow: 3.4794037899852017px 0 1px rgba(0,30,255,0.5), -3.4794037899852017px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  25% {
+    text-shadow: 1.6125630401149584px 0 1px rgba(0,30,255,0.5), -1.6125630401149584px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  30% {
+    text-shadow: 0.7015590085143956px 0 1px rgba(0,30,255,0.5), -0.7015590085143956px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  35% {
+    text-shadow: 3.896914047650351px 0 1px rgba(0,30,255,0.5), -3.896914047650351px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  40% {
+    text-shadow: 3.870905614848819px 0 1px rgba(0,30,255,0.5), -3.870905614848819px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  45% {
+    text-shadow: 2.231056963361899px 0 1px rgba(0,30,255,0.5), -2.231056963361899px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  50% {
+    text-shadow: 0.08084290417898504px 0 1px rgba(0,30,255,0.5), -0.08084290417898504px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  55% {
+    text-shadow: 2.3758461067427543px 0 1px rgba(0,30,255,0.5), -2.3758461067427543px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  60% {
+    text-shadow: 2.202193051050636px 0 1px rgba(0,30,255,0.5), -2.202193051050636px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  65% {
+    text-shadow: 2.8638780614874975px 0 1px rgba(0,30,255,0.5), -2.8638780614874975px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  70% {
+    text-shadow: 0.48874025155497314px 0 1px rgba(0,30,255,0.5), -0.48874025155497314px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  75% {
+    text-shadow: 1.8948491305757957px 0 1px rgba(0,30,255,0.5), -1.8948491305757957px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  80% {
+    text-shadow: 0.0833037308038857px 0 1px rgba(0,30,255,0.5), -0.0833037308038857px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  85% {
+    text-shadow: 0.09769827255241735px 0 1px rgba(0,30,255,0.5), -0.09769827255241735px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  90% {
+    text-shadow: 3.443339761481782px 0 1px rgba(0,30,255,0.5), -3.443339761481782px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  95% {
+    text-shadow: 2.1841838852799786px 0 1px rgba(0,30,255,0.5), -2.1841838852799786px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  100% {
+    text-shadow: 2.6208764473832513px 0 1px rgba(0,30,255,0.5), -2.6208764473832513px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+}
+@keyframes glitch-skew {
+    0% {
+        transform: skew(0deg, 0deg);
+    }
+    48% {
+        transform: skew(0deg, 0deg);
+        filter: blur(0);
+    }
+    50% {
+        transform: skew(-20deg, 0deg);
+        filter: blur(4px);
+    }
+    52% {
+        transform: skew(20deg, 0deg);
+    }
+    54% {
+        transform: skew(0deg, 0deg);
+        filter: blur(0);
+    }
+    100% {
+        transform: skew(0deg, 0deg);
+    }
+
+}
+
+a, a:visited {
+  color: #000000;
+  text-shadow: 1px 1px 2px #00ff00, 0 0 1vmin #00ff00, 0 0 5px #00ff00;
+  text-decoration: none;
+}
+a:hover, hr {
+  color: #00ff00;
+}
+    </style>
+  </head>
+  <body>
+    <audio id="background-audio" loop>
+      <source src="defcon.mp3" type="audio/mpeg">
+      Tu navegador no soporta el elemento de audio.
+  </audio>
+    <audio id="hover-sound">
+      <source src="c.mp3" type="audio/mpeg">
+      Tu navegador no soporta el elemento de audio.
+    </audio>
+<div class="scanlines"></div>
+<div class="scanline"></div>
+<div class="flicker"></div>
+<div class="body">
+  <div id="splash-screen">
+    <h1>Why...</h1>
+</div>
+
+<div id="image-container">
+  <img id="image" src="rr.png" alt="Imagen">
+  <div id="crosshair">
+      <div class="vertical"></div>
+      <div class="horizontal"></div>
+  </div>
+</div>
+<div class="flash" id="flash"></div>
+
+
+</div>
+<script>
+  window.addEventListener('load', function() {
+      const audio = document.getElementById('background-audio');
+      const playPromise = audio.play();
+      
+      if (playPromise !== undefined) {
+          playPromise.then(_ => {
+          }).catch(error => {
+              console.log('Reproducción automática no permitida');
+          });
+      }
+  });
+</script>
+<script>
+  const hoverSound = document.getElementById('hover-sound');
+
+  function playHoverSound() {
+    hoverSound.currentTime = 0;
+    hoverSound.play();
+  }
+
+  const elements = document.querySelectorAll('.elemento-a-reproducir-sonido');
+  elements.forEach(element => {
+    element.addEventListener('mouseenter', playHoverSound);
+  });
+</script>
+<script>
+  window.addEventListener('load', () => {
+      const splashScreen = document.getElementById('splash-screen');
+      const mainContent = document.getElementById('main-content');
+
+      setTimeout(() => {
+          splashScreen.style.opacity = '0';
+          splashScreen.style.pointerEvents = 'none';
+          mainContent.style.display = 'block';
+
+          setTimeout(() => {
+              splashScreen.style.display = 'none';
+          }, 500);
+      }, 2000);
+  });
+</script>
+<script>
+  const image = document.getElementById('image');
+  const crosshair = document.getElementById('crosshair');
+  const verticalLine = document.querySelector('.vertical');
+  const horizontalLine = document.querySelector('.horizontal');
+  const flash = document.getElementById('flash');
+
+  image.addEventListener('load', () => {
+      const imageRect = image.getBoundingClientRect();
+      const imageCenterX = imageRect.left + imageRect.width / 2;
+      const imageCenterY = imageRect.top + imageRect.height / 2;
+
+      document.addEventListener('mousemove', (event) => {
+          const cursorX = event.clientX;
+          const cursorY = event.clientY;
+
+          crosshair.style.left = `${cursorX}px`;
+          crosshair.style.top = `${cursorY}px`;
+
+          if (Math.abs(cursorX - imageCenterX) < 20 && Math.abs(cursorY - imageCenterY) < 20) {
+              verticalLine.style.backgroundColor = 'red';
+              horizontalLine.style.backgroundColor = 'red';
+              flash.classList.add('active');
+              document.body.classList.add('red-cursor');
+          } else {
+              verticalLine.style.backgroundColor = 'green';
+              horizontalLine.style.backgroundColor = 'green';
+              flash.classList.remove('active');
+              document.body.classList.remove('red-cursor');
+          }
+      });
+  });
+</script>
+</body></html>
