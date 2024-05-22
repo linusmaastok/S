@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.75">
+    <title>\x00</title>
+	
+	<meta name="description" content="\x00">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1024">
+<meta property="og:image:height" content="1024">
+
+<link id="favicon" rel="shortcut icon" href="favicon.ico">
+	
+    <style>
+body {
+            cursor: url('cursor.cur'), auto;
+        }
+        #neon-text {
+            font-size: 24px;
+            color: rgb(0, 49, 0);
+            text-align: center;
+            text-shadow: 0 0 10px #0f0, 0 0 20px #0f0, 0 0 30px #0f0, 0 0 40px #0f0, 0 0 70px #0f0, 0 0 80px #0f0, 0 0 100px #0f0, 0 0 150px #0f0;
+        }
+        #container {
+            text-align: center;
+        }
+        #game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #generation-counter {
+            margin-bottom: 10px;
+        }
+
+        #game-of-life {
+            display: grid;
+            grid-template-columns: repeat(50, 10px);
+            border: 1px solid black;
+        }
+
+        .cell {
+            width: 10px;
+            height: 10px;
+            background-color: white;
+            border: 1px solid lightgray;
+        }
+
+        .alive {
+            background-color: black;
+        }
+@font-face {
+  font-family:TopazPlus-a1200;
+  src: url("topaz.eot");
+}
+
+h1 {
+            display: inline;
+        }
+h2 {
+            display: inline;
+        }
+
+@font-face {
+  font-family:TopazPlus-a1200;
+  src: url("topaz.ttf") format("truetype");
+}
+
+@keyframes blink {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.blinking {
+    animation: blink 1s infinite;
+}
+
+::-webkit-scrollbar-thumb{
+  width:4px;
+  background-color: #007708;
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+	background-color: #0d1d0c;
+}
+::-webkit-scrollbar{
+  width: 4px;
+	background-color: #0c1d12;
+}
+* {
+  scrollbar-color: rgb(0, 119, 4) #aaaaaa;
+  scrollbar-width: thin;
+}
+html, body {
+  margin: 0;
+  padding:0;
+  background:#0f1d0c;
+  min-height: 100vh;
+}
+body {
+  position:absolute;
+  width: auto;
+  min-width: 100%;
+
+}
+pre {
+  font-family:TopazPlus-a1200;
+  font-size: calc(min(22px, 3.5vw));
+  font-weight:normal;
+  color:#57ffff;
+  line-height: calc(min(20px, 3.5vw));
+  margin:; padding: 0;
+  margin-bottom:16px;
+}
+.g {color:#0c7700}
+.lg {color:#00b60f}
+.w {color:#00ff1e}
+.by {color:#0c1d0e}
+.stopped {
+            color: red;
+        }
+
+::-moz-selection {color:000000;background:#09b600}
+.g::-moz-selection, .by::-moz-selection {color:#000000}
+.lg::-moz-selection {color:#000000}
+.w::-moz-selection {color:#000000}
+
+::selection {color:#000000;background:#24b600}
+.g::selection, .by::selection {color:#000000}
+.lg::selection {color:#000000}
+.w::selection {color:#000000}
+
+.emphasized { font-style: italic; }
+
+.body {
+  padding:16px 8px 16px 8px;
+  animation: textShadow 1.033s infinite;
+}
+.flicker {
+  pointer-events: none;
+  position: fixed;
+  width: auto;
+  min-width: 100%;
+  height:100%;
+  z-index:15;
+  background: rgba(9, 8, 8, 0.1);
+  animation: flicker 0.3301s infinite;
+}
+.scanline {
+  position:fixed;
+  pointer-events: none;
+  top:0%;
+  width: auto;
+  min-width: 100%;
+  height: 2px;
+  z-index: 10;
+  background: rgba(0, 0, 0, .3);
+  opacity: 0.75;
+  animation: scanline 7.77s linear infinite;
+}
+.scanlines {
+  position:fixed;
+  pointer-events: none;
+  width: auto;
+  min-width: 100%;
+  height:100%;
+  z-index: 5;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  background-size: 100% 2px, 3px 100%;
+}
+
+@keyframes flicker { 0% { opacity: 0.119; } 5% { opacity: 0.02841; } 10% { opacity: 0.35748; } 15% { opacity: 0.88852; } 20% { opacity: 0.9408; } 25% { opacity: 0.35088; } 30% { opacity: 0.22426; } 35% { opacity: 0.26418; } 40% { opacity: 0.09249; } 45% { opacity: 0.35312; } 50% { opacity: 0.89436; } 55% { opacity: 0.9574; } 60% { opacity: 0.19754; } 65% { opacity: 0.05086; } 70% { opacity: 0.12137; } 75% { opacity: 0.75791; } 80% { opacity: 0.89617; } 85% { opacity: 0.90183; } 90% { opacity: 0.20657; } 95% { opacity: 0.64125; } 100% { opacity: 0.78042; }}
+
+@keyframes scanline {
+  0% {
+    top:99%;
+  }
+}
+@keyframes scanlines {
+  0% {
+    background-position: 0 50%;
+  }
+}
+@keyframes textShadow {
+  0% {
+    text-shadow: 0.4389924193300864px 0 1px rgba(0,30,255,0.5), -0.4389924193300864px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  5% {
+    text-shadow: 2.7928974010788217px 0 1px rgba(0,30,255,0.5), -2.7928974010788217px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  10% {
+    text-shadow: 0.02956275843481219px 0 1px rgba(0,30,255,0.5), -0.02956275843481219px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  15% {
+    text-shadow: 0.40218538552878136px 0 1px rgba(0,30,255,0.5), -0.40218538552878136px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  20% {
+    text-shadow: 3.4794037899852017px 0 1px rgba(0,30,255,0.5), -3.4794037899852017px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  25% {
+    text-shadow: 1.6125630401149584px 0 1px rgba(0,30,255,0.5), -1.6125630401149584px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  30% {
+    text-shadow: 0.7015590085143956px 0 1px rgba(0,30,255,0.5), -0.7015590085143956px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  35% {
+    text-shadow: 3.896914047650351px 0 1px rgba(0,30,255,0.5), -3.896914047650351px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  40% {
+    text-shadow: 3.870905614848819px 0 1px rgba(0,30,255,0.5), -3.870905614848819px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  45% {
+    text-shadow: 2.231056963361899px 0 1px rgba(0,30,255,0.5), -2.231056963361899px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  50% {
+    text-shadow: 0.08084290417898504px 0 1px rgba(0,30,255,0.5), -0.08084290417898504px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  55% {
+    text-shadow: 2.3758461067427543px 0 1px rgba(0,30,255,0.5), -2.3758461067427543px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  60% {
+    text-shadow: 2.202193051050636px 0 1px rgba(0,30,255,0.5), -2.202193051050636px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  65% {
+    text-shadow: 2.8638780614874975px 0 1px rgba(0,30,255,0.5), -2.8638780614874975px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  70% {
+    text-shadow: 0.48874025155497314px 0 1px rgba(0,30,255,0.5), -0.48874025155497314px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  75% {
+    text-shadow: 1.8948491305757957px 0 1px rgba(0,30,255,0.5), -1.8948491305757957px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  80% {
+    text-shadow: 0.0833037308038857px 0 1px rgba(0,30,255,0.5), -0.0833037308038857px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  85% {
+    text-shadow: 0.09769827255241735px 0 1px rgba(0,30,255,0.5), -0.09769827255241735px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  90% {
+    text-shadow: 3.443339761481782px 0 1px rgba(0,30,255,0.5), -3.443339761481782px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  95% {
+    text-shadow: 2.1841838852799786px 0 1px rgba(0,30,255,0.5), -2.1841838852799786px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+  100% {
+    text-shadow: 2.6208764473832513px 0 1px rgba(0,30,255,0.5), -2.6208764473832513px 0 1px rgba(255,0,80,0.3), 0 0 3px;
+  }
+}
+@keyframes glitch-skew {
+    0% {
+        transform: skew(0deg, 0deg);
+    }
+    48% {
+        transform: skew(0deg, 0deg);
+        filter: blur(0);
+    }
+    50% {
+        transform: skew(-20deg, 0deg);
+        filter: blur(4px);
+    }
+    52% {
+        transform: skew(20deg, 0deg);
+    }
+    54% {
+        transform: skew(0deg, 0deg);
+        filter: blur(0);
+    }
+    100% {
+        transform: skew(0deg, 0deg);
+    }
+
+}
+
+a, a:visited {
+  color: #000000;
+  text-shadow: 1px 1px 2px #2bff00, 0 0 1vmin #04ff00, 0 0 5px #00ff00;
+  text-decoration: none;
+}
+a:hover, hr {
+  color: #00ff00;
+}
+    </style>
+  </head>
+  <body>
+    <audio id="background-audio" loop>
+      <source src="defcon.mp3" type="audio/mpeg">
+      Tu navegador no soporta el elemento de audio.
+  </audio>
+    <audio id="hover-sound">
+      <source src="c.mp3" type="audio/mpeg">
+      Tu navegador no soporta el elemento de audio.
+    </audio>
+<div class="scanlines"></div>
+<div class="scanline"></div>
+<div class="flicker"></div>
+<div class="body" id="container">
+
+  <pre class="lg">
+    <div class="lg" id="neon-text">
+      1n tH3 d4nc3 0f l1f3 4nd s0c13tY, <br>
+      w3 w4lk b3tw33n l1ghts 4nd sh4d0ws, w1th0ut r3sp1t3. <br>
+      1n tH3 3bb 4nd fl0w 0f 3x1st3nc3, w3 s33k, <br>
+      b3tw33n tH3 n01s3 0f tH3 w0rld 4nd tH3 d33p c4lm. <br> <br>
+
+      1n tH3 th34t3r 0f l1v1ng, w3 4r3 4ct0rs, <br>
+      1nt3rpr3t1ng r0l3s 0n tH3 st4g3. <br>
+      S0c13tY 3mbr4c3s us 4nd t34rs us 4p4rt, <br>
+      1n 4n 3t3rn4l g4m3 0f l0v3 4nd d1s1llus10nm3nt. <br> <br>
+  </div>
+<div id="game-container">
+  <div id="generation-counter">Generation: 0</div>
+  <div id="game-of-life"></div>
+</div>
+
+<div class="lg" id="neon-text">
+But 4t tH3 3nd 0f tH3 d4Y, d34tH 4w41ts us, <br>
+l1k3 4 d1st4nt 3ch0, l1k3 4 s4f3 d3st1n4t10n. <br>
+1t r3m1nds us tH4t w3 4r3 st4rdust, <br>
+4nd 1n 1ts f1n4l 3mbr4c3, w3 f1nd s4f3tY...
+</div>
+
+<pre>
+  <font style="font-size: calc(min(25px, 3.5vw)); line-height: calc(min(25px, 3.8vw));"><img src="s.gif" width="65"><a class="elemento-a-reproducir-sonido" href="me.html">M3</a><img src="s.gif" width="65"><a class="elemento-a-reproducir-sonido" href="contact.html">C0N74C7</a><img src="s.gif" width="65"><a class="elemento-a-reproducir-sonido" href="jv.html">L1573N</a><img src="s.gif" width="65"></font>
+</pre>
+</div>
+
+<script>
+  window.addEventListener('load', function() {
+      const audio = document.getElementById('background-audio');
+      const playPromise = audio.play();
+      
+      if (playPromise !== undefined) {
+          playPromise.then(_ => {
+          }).catch(error => {
+              console.log('Reproducción automática no permitida');
+          });
+      }
+  });
+</script>
+<script>
+  const hoverSound = document.getElementById('hover-sound');
+
+  function playHoverSound() {
+    hoverSound.currentTime = 0;
+    hoverSound.play();
+  }
+
+  const elements = document.querySelectorAll('.elemento-a-reproducir-sonido');
+  elements.forEach(element => {
+    element.addEventListener('mouseenter', playHoverSound);
+  });
+</script>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+      const gridSize = 50;
+      const interval = 200;
+      let cells;
+      let generation = 0;
+      let timerId;
+
+      function createEmptyGrid(size) {
+          return Array.from({ length: size }, () => Array.from({ length: size }, () => false));
+      }
+
+      function initializeGrid() {
+          const gameOfLife = document.getElementById("game-of-life");
+          gameOfLife.innerHTML = "";
+          cells.forEach((row, rowIndex) => {
+              row.forEach((cell, colIndex) => {
+                  const cellElement = document.createElement("div");
+                  cellElement.classList.add("cell");
+                  if (cell) {
+                      cellElement.classList.add("alive");
+                  }
+                  cellElement.addEventListener("click", () => {
+                      cells[rowIndex][colIndex] = !cells[rowIndex][colIndex];
+                      cellElement.classList.toggle("alive");
+                  });
+                  gameOfLife.appendChild(cellElement);
+              });
+          });
+      }
+
+// Mantener un historial de generaciones anteriores
+let generationHistory = [];
+
+// Función para calcular el siguiente estado de las celdas
+function nextGeneration() {
+    const newCells = createEmptyGrid(gridSize);
+    cells.forEach((row, rowIndex) => {
+        row.forEach((cell, colIndex) => {
+            const aliveNeighbors = countAliveNeighbors(rowIndex, colIndex);
+            if (cell) {
+                if (aliveNeighbors === 2 || aliveNeighbors === 3) {
+                    newCells[rowIndex][colIndex] = true;
+                }
+            } else {
+                if (aliveNeighbors === 3) {
+                    newCells[rowIndex][colIndex] = true;
+                }
+            }
+        });
+    });
+
+    // Comprobar si la generación actual coincide con alguna de las generaciones anteriores
+    if (generationHistory.some(previousGeneration => JSON.stringify(newCells) === JSON.stringify(previousGeneration))) {
+        stopGame();
+        return;
+    }
+
+    // Agregar la generación actual al historial
+    generationHistory.push(newCells);
+
+    cells = newCells;
+    initializeGrid();
+    updateGenerationCounter();
+}
+
+      function countAliveNeighbors(row, col) {
+          let count = 0;
+          for (let i = -1; i <= 1; i++) {
+              for (let j = -1; j <= 1; j++) {
+                  const neighborRow = row + i;
+                  const neighborCol = col + j;
+                  if (neighborRow >= 0 && neighborRow < gridSize && neighborCol >= 0 && neighborCol < gridSize) {
+                      if (!(i === 0 && j === 0) && cells[neighborRow][neighborCol]) {
+                          count++;
+                      }
+                  }
+              }
+          }
+          return count;
+      }
+
+      function generateRandomConfiguration() {
+          cells = createEmptyGrid(gridSize);
+          cells.forEach((row, rowIndex) => {
+              row.forEach((_, colIndex) => {
+                  cells[rowIndex][colIndex] = Math.random() < 0.5; // live %
+              });
+          });
+      }
+
+      generateRandomConfiguration();
+      initializeGrid();
+      updateGenerationCounter();
+
+      timerId = setInterval(nextGeneration, interval);
+
+      function stopGame() {
+                clearInterval(timerId);
+                document.getElementById("generation-counter").classList.add("stopped");
+            }
+
+      function updateGenerationCounter() {
+          generation++;
+          document.getElementById("generation-counter").textContent = "Generation: " + generation + "†...  haven't you lost faith yet?";
+      }
+  });
+</script>
+</body></html>
