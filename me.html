@@ -438,10 +438,10 @@ C:\&gt; start CERTS.exe</font> <font color="ababab" class="blinking">_</font>
           for (const [country, record] of Object.entries(countryRecords)) {
               const li = document.createElement('li');
               const img = document.createElement('img');
-              img.src = `https://flagcdn.com/w40/${record.countryCode}.png`; // Uso de flagcdn para las banderas
+              img.src = `https://flagcdn.com/w40/${record.countryCode}.png`;
               img.alt = `Bandera de ${country}`;
               const span = document.createElement('span');
-              span.textContent = `${country} - ${record.count} visits`;
+              span.textContent = `${country}<!-- - ${record.count} visits`-->;
 
               li.appendChild(img);
               li.appendChild(span);
@@ -450,7 +450,6 @@ C:\&gt; start CERTS.exe</font> <font color="ababab" class="blinking">_</font>
       }
   }
 
-  // Ejecutar las funciones al cargar la página
   document.addEventListener('DOMContentLoaded', () => {
       getIpAndCountry();
       displayCountryRecords();
