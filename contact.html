@@ -23,6 +23,24 @@
   font-family:TopazPlus-a1200;
   src: url("topaz.ttf") format("truetype");
 }
+@keyframes blink {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.blinking {
+    animation: blink 1s infinite;
+}
+h1 {
+            display: inline;
+        }
 ::-webkit-scrollbar-thumb{
   width:4px;
   background-color: #007702;
@@ -241,6 +259,8 @@ a:hover, hr {
 <div class="flicker"></div>
 <div class="body">
 
+  <pre class="lg">  <h1 class="lg">W31C0M3...  </h1> <h1 class="lg blinking" id="user-ip">LOADING...</h1> <h1 class="lg">☺︎</h1>
+  </pre>
 
 <pre>  <span class="g">¦</span> <span class="w"> |   \ / | |  |  ¯<span class="lg">:</span>  <span class="lg">:</span>¯¯  \/     <span class="lg">¦</span>      |<span class="g">¦</span> | ||<span class="g">ø</span>
   <span class="lg">:</span>  <span class="lg">:</span>¯<span class="lg">:</span> -X- <span class="lg">:</span>¯   <span class="lg">:</span>  X |    /\  <span class="g">-</span> <span class="lg">-</span>*<span class="lg">-</span> <span class="g">-</span>   <span class="lg">†</span>
@@ -278,8 +298,6 @@ a:hover, hr {
 <!--text--> <font color="FFA500">PHONE</font> +569 7917 4468
 
 </pre>
-
-
  
 <pre><font style="font-size: calc(min(25px, 3.5vw)); line-height: calc(min(25px, 3.8vw));"><img src="s.gif" width="65"><a class="lg elemento-a-reproducir-sonido" href="me.html">M3</a><img src="s.gif" width="65"><a class="lg elemento-a-reproducir-sonido" href="contact.html">C0N74C7</a><img src="s.gif" width="65"></font>
 </pre>
@@ -289,6 +307,21 @@ a:hover, hr {
 
 
 </font>
+
+<script>
+  // Usar fetch para obtener la IP del usuario desde la API de ipify
+  fetch('https://api.ipify.org?format=json')
+      .then(response => response.json())
+      .then(data => {
+          // Mostrar la IP en el elemento con id "user-ip"
+          document.getElementById('user-ip').innerText = data.ip;
+      })
+      .catch(error => {
+          console.error('Error al obtener la IP:', error);
+          document.getElementById('user-ip').innerText = 'No se pudo obtener la IP';
+      });
+</script>
+
 <script>
   window.addEventListener('load', function() {
       const audio = document.getElementById('background-audio');
