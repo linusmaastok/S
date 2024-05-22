@@ -259,9 +259,8 @@ a:hover, hr {
 <div class="flicker"></div>
 <div class="body">
 
-  <pre class="lg">  <h1 class="lg">W31C0M3...  </h1> <h1 class="lg blinking" id="user-ip">LOADING...</h1> <h1 class="lg">☺︎</h1>
+  <pre class="lg">  <h1 class="lg">W31C0M3...  </h1> <h1 class="lg blinking" id="user-ip">LOADING...</h1> <h1 class="lg">☺︎</h1><pre class="lg" id="country-list">loading...</pre>
   </pre>
-
 <pre>  <span class="g">¦</span> <span class="w"> |   \ / | |  |  ¯<span class="lg">:</span>  <span class="lg">:</span>¯¯  \/     <span class="lg">¦</span>      |<span class="g">¦</span> | ||<span class="g">ø</span>
   <span class="lg">:</span>  <span class="lg">:</span>¯<span class="lg">:</span> -X- <span class="lg">:</span>¯   <span class="lg">:</span>  X |    /\  <span class="g">-</span> <span class="lg">-</span>*<span class="lg">-</span> <span class="g">-</span>   <span class="lg">†</span>
   |  | | % ƒ |   ∑  |  |   /       <span class="lg">¦</span>     <span class="g">∂</span>∂ ∑∑</span> 
@@ -309,11 +308,9 @@ a:hover, hr {
 </font>
 
 <script>
-  // Usar fetch para obtener la IP del usuario desde la API de ipify
   fetch('https://api.ipify.org?format=json')
       .then(response => response.json())
       .then(data => {
-          // Mostrar la IP en el elemento con id "user-ip"
           document.getElementById('user-ip').innerText = data.ip;
       })
       .catch(error => {
@@ -348,4 +345,60 @@ a:hover, hr {
     element.addEventListener('mouseenter', playHoverSound);
   });
 </script>
+
+<script>
+  function getIpAndCountry() {
+      fetch('https://api.ipify.org?format=json')
+          .then(response => response.json())
+          .then(data => {
+              const ip = data.ip;
+              return fetch(`http://ip-api.com/json/${ip}`);
+          })
+          .then(response => response.json())
+          .then(data => {
+              const country = data.country;
+              const countryCode = data.countryCode.toLowerCase();
+
+              let countryRecords = localStorage.getItem('countryRecords');
+              countryRecords = countryRecords ? JSON.parse(countryRecords) : [];
+
+              if (!countryRecords.some(record => record.country === country)) {
+                  countryRecords.push({ country, countryCode });
+                  localStorage.setItem('countryRecords', JSON.stringify(countryRecords));
+              }
+
+              displayCountryRecords();
+          })
+          .catch(error => {
+              console.error('Error al obtener la IP o el país:', error);
+          });
+  }
+
+  function displayCountryRecords() {
+      const countryRecords = JSON.parse(localStorage.getItem('countryRecords')) || [];
+      const countryList = document.getElementById('country-list');
+      countryList.innerHTML = '';
+
+      if (countryRecords.length === 0) {
+          countryList.innerHTML = '<p>No hay países registrados.</p>';
+      } else {
+          countryRecords.forEach(record => {
+              const li = document.createElement('li');
+              const img = document.createElement('img');
+              img.src = `https://flagcdn.com/w40/${record.countryCode}.png`;
+              img.alt = `${record.country}`;
+              const span = document.createElement('span');
+              span.textContent = record.country;
+
+              li.appendChild(img);
+              countryList.appendChild(li);
+          });
+      }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+      getIpAndCountry();
+  });
+</script>
+
 </body></html>
